@@ -11,9 +11,9 @@ const allCities=[];
 fetch(endpoint)
     .then(rawdata => rawdata.json())
     .then(data => {
-        console.log('data:', data);
+        // console.log('data:', data);
         allCities.push(...data);
-        console.log('allCities', allCities);
+        // console.log('allCities', allCities);
     })
     .catch(err => console.log("Error occured :"+err));
 
@@ -23,6 +23,25 @@ fetch(endpoint)
 function findCities(whatToFind,allCities) {
     return allCities.filter(place => {
         const regex = new RegExp(whatToFind, 'gi');
-        return place.name.match(regex);
+        return place.name.match(regex) || place.state.match(regex);
     });
 }
+
+/* content will be an array and its element will be seperated by ,
+   to convert it into a long string we use .join()
+*/
+function displayCities() {
+    // console.log('value', this.value);
+    const matchingCities = findCities(this.value, allCities);
+    console.log('matchingCities', matchingCities);
+    const content = matchingCities.map((place) => {
+        return (` <li class="a"> ${place.name} in ${place.state} </li> `);
+    }).join('');
+    citylistEl.innerHTML = content;
+}
+
+const searchEl = document.querySelector('.searchbox');
+const citylistEl = document.querySelector('.citylist');
+
+searchEl.addEventListener('change',displayCities);
+searchEl.addEventListener('keyup',displayCities);

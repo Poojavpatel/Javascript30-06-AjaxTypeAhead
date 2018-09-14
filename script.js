@@ -40,6 +40,7 @@ function displayCities() {
     citylistEl.innerHTML = content;
 }
 
+
 const searchEl = document.querySelector('.searchbox');
 const citylistEl = document.querySelector('.citylist');
 
